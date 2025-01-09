@@ -14,7 +14,7 @@ export const ZotContainer = ({
   uuid,
   rect,
 }: {
-  flag: 'full' | 'table' | 'citation'
+  flag: 'full' | 'table' | 'citation' | 'link' | 'open'
   uuid?: string
   rect?: { x: number; y: number }
 }) => {
@@ -42,7 +42,7 @@ export const ZotContainer = ({
       <MantineProvider theme={theme}>
         <div style={{ background: 'none' }}>
           {flag == 'table' && <ItemsTable />}
-          {(flag == 'full' || flag == 'citation') && rect && uuid && (
+          {(flag == 'full' || flag == 'citation' || flag == 'link' || flag == 'open') && rect && uuid && (
             <SearchItem flag={flag} rect={rect} uuid={uuid} />
           )}
         </div>

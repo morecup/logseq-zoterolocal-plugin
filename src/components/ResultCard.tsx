@@ -8,7 +8,7 @@ import { insertZotIntoGraph } from '../services/insert-zot-into-graph'
 import divStyle from '../styles/Div.module.css'
 
 interface ResultCardProps {
-  flag: 'full' | 'table' | 'citation'
+  flag: 'full' | 'table' | 'citation' | 'link' | 'open'
   uuid: string
   item: ZotData
   reset: UseFormReset<FormValues>
@@ -62,9 +62,47 @@ export const ResultCard = ({ flag, uuid, item, reset }: ResultCardProps) => {
     await logseq.Editor.updateBlock(uuid, `${content} [[${pageName}]]`)
   }, [item])
 
+  const insertLink = useCallback(async () => {
+    // const templateStr = `[${item.title}](${item.libraryLink})`
+    const templateStr = (logseq.settings!.linkTemplate as string).replace(
+      `<% title %>`,
+      item.title,
+    ).replace(
+      `<% link %>`,
+      item.libraryLink,
+    )
+    await logseq.Editor.insertAtEditingCursor(templateStr)
+
+    reset()
+    logseq.hideMainUI()
+  }, [item])
+
+  const insertOpen = useCallback(async () => {
+    // const templateStr = `${item.title} {{zotero-imported-file ${item.key}, "${item.filename}"}}`
+    if (!item.filename){
+      item.filename = "";
+    }
+    const templateStr = (logseq.settings!.openTemplate as string).replace(
+      `<% key %>`,
+      item.key,
+    ).replace(
+      `<% filename %>`,
+      item.filename,
+    ).replace(
+      `<% title %>`,
+      item.title,
+    )
+    await logseq.Editor.insertAtEditingCursor(templateStr)
+
+    reset()
+    logseq.hideMainUI()
+  }, [item])
+
   const handleClick = () => {
     if (flag === 'citation') insertCitation()
     if (flag === 'full') insertZot()
+    if (flag === 'link') insertLink()
+    if (flag === 'open') insertOpen()
   }
 
   return (

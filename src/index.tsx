@@ -68,6 +68,42 @@ const main = async () => {
     },
   )
 
+  logseq.Editor.registerSlashCommand(
+    'Zotero: Insert Link',
+    async (e) => {
+      const { rect } =
+        (await logseq.Editor.getEditingCursorPosition()) as BlockCursorPosition
+      root.render(<ZotContainer flag={'link'} uuid={e.uuid} rect={rect} />)
+      logseq.showMainUI()
+
+      document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key !== 'Escape') {
+          const searchField: HTMLInputElement =
+            document.querySelector('#search-field')!
+          searchField.focus()
+        }
+      })
+    },
+  )
+
+  logseq.Editor.registerSlashCommand(
+    'Zotero: Insert Open',
+    async (e) => {
+      const { rect } =
+        (await logseq.Editor.getEditingCursorPosition()) as BlockCursorPosition
+      root.render(<ZotContainer flag={'open'} uuid={e.uuid} rect={rect} />)
+      logseq.showMainUI()
+
+      document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key !== 'Escape') {
+          const searchField: HTMLInputElement =
+            document.querySelector('#search-field')!
+          searchField.focus()
+        }
+      })
+    },
+  )
+
   //////////////////////////////////////////
   // DEPRECATED: REGISTER ICON TO TOOLBAR //
   //////////////////////////////////////////

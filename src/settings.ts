@@ -49,6 +49,20 @@ export const handleSettings = async ({
         description: `Specify the template when using the command /Zotero: Insert citation. Ensure that <% citeKey %> placeholder is indicated in your template`,
         default: '[@<% citeKey %>]',
       },
+      {
+        key: 'linkTemplate',
+        type: 'string',
+        title: 'Template for link',
+        description: ``,
+        default: '[<% title %>](<% link %>)',
+      },
+      {
+        key: 'openTemplate',
+        type: 'string',
+        title: 'Template for open',
+        description: ``,
+        default: '<% title %> {{zotero-imported-file <% key %>, "<% filename %>"}}',
+      },
     ]
 
     settings = [...settings, ...pluginSettings]

@@ -16,7 +16,7 @@ export const SearchItem = ({
   rect: { x, y },
   uuid,
 }: {
-  flag: 'full' | 'table' | 'citation'
+  flag: 'full' | 'table' | 'citation' | 'link' | 'open'
   rect: { x: number; y: number }
   uuid: string
 }) => {
